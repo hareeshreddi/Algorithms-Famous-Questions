@@ -64,8 +64,8 @@ char *a[h];
 int *b[h];
 for(i=0;i<h;i++)
 {
-    a[i]=(char *)malloc(sizeof(char)*(751));
-    b[i]=(int *)malloc(sizeof(int)*(751));
+    a[i]=(char *)malloc(sizeof(char)*(w+1));
+    b[i]=(int *)malloc(sizeof(int)*(w));
 }
 for(i=0;i<h;i++)
 {
