@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stdlib.h>
+int isSafe(int ROW,int COL,int **ap, int row, int col,int visited[][COL])
+{
+	// row number is in range, column number is in range and value is 1
+	// and not yet visited
+	return (row >= 0) && (row < ROW) &&
+		(col >= 0) && (col < COL) &&
+		(ap[row][col]==1 && visited[row][col]==0);
+}
+
+void DFS(int h,int w,int **ap,int row, int col,int visited[][w],int count,int *output)
+{
+	// These arrays are used to get row and column numbers of 8 neighbours
+	// of a given cell
+	output[count]++;
+	static int rowNbr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+	static int colNbr[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+	// Mark this cell as visited
+	visited[row][col] = 1;
+    int k;
+	// Recur for all connected neighbours
+	for (k = 0; k < 8; ++k)
+		if (isSafe(h,w,ap, row + rowNbr[k], col + colNbr[k], visited) )
+			DFS(h,w,ap, row + rowNbr[k], col + colNbr[k], visited,count,output);
+}
+
+int FindMaxLength(int **ap,int h,int w)
+{
+int i,j,count=0,max=0;
+int visited[h][w];
+int *output=(int*)malloc(sizeof(int)*750*750);
+for(i=0;i<750*750;i++)
+   output[i]=0;
+for(i=0;i<h;i++)
+
+    for(j=0;j<w;j++)
+       visited[i][j]=0;
+
+for (i = 0; i < h; ++i)
+    for (j = 0; j < w; ++j)
+        if (ap[i][j]==1 && visited[i][j]==0)
+        {
+            DFS(h,w,ap,i,j,visited,count,output);
+            ++count;
+        }
+for(i=0;i<count;i++)
+{
+  if(max<output[i])
+       max=output[i];
+}
+return max;
+}
+
+int main()
+{
+int w,h,i,j;
+scanf("%d %d",&w,&h);
+//char a[h][w+1];
+char *a[h];
+int *b[h];
+for(i=0;i<h;i++)
+{
+    a[i]=(char *)malloc(sizeof(char)*(751));
+    b[i]=(int *)malloc(sizeof(int)*(751));
+}
+for(i=0;i<h;i++)
+{
+    scanf("%s",a[i]);
+    a[i][w]='\0';
+}
+for(i=0;i<h;i++)
+{
+    for(j=0;j<w+1;j++)
+       if(a[i][j]=='.')
+          b[i][j]=1;
+       else
+          b[i][j]=0;
+}
+int x=FindMaxLength(b,h,w);
+printf("%d",x);
+return 0;
+}
