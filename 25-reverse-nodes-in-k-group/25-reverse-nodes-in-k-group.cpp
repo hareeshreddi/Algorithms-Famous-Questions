@@ -21,7 +21,7 @@ public:
         return ans;
     }
     ListNode* reverseKGroup(ListNode* head, int k) {
-        if(!head||k==1) return head;
+        if(!head) return head;
         ListNode* cur=head,*ans=NULL;
         int c=0;
         while(cur&&c<k-1){
