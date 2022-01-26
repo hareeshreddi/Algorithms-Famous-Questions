@@ -15,15 +15,25 @@ public:
         if(!root) return {};
         vector<int>ans;
         stack<TreeNode*>s;
-        s.push(root);
-        while(!s.empty()){
+        while(!s.empty()||root){
+            while(root){
+                s.push(root);
+                ans.push_back(root->val);
+                root=root->left;
+            }
             TreeNode* t=s.top();s.pop();
-            ans.push_back(t->val);
-            if(t->right)
-                s.push(t->right);
-            if(t->left)
-                s.push(t->left);
+            root=t->right;
         }
+
         return ans;
     }
 };
+//Typical Normal Method
+// while(!s.empty()){
+//     TreeNode* t=s.top();s.pop();
+//     ans.push_back(t->val);
+//     if(t->right)
+//         s.push(t->right);
+//     if(t->left)
+//         s.push(t->left);
+// }
