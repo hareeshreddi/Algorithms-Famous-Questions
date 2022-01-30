@@ -24,6 +24,9 @@ public:
     int getCount(){
         return count;
     }
+    void increaseCount(int i){
+        this->count+=i;
+    }
     int find(int i){ //Path Compression
         if(i!=parent[i]) parent[i]=find(parent[i]);
         return parent[i];
@@ -39,7 +42,6 @@ public:
                 rank[root_y]+=rank[root_x];
                 parent[root_x]=root_y;
             }
-            --count;
         }
     }
 };
@@ -50,12 +52,17 @@ public:
         UnionFind uf(m*n);
         for(const vector<int>pos:positions){
             int r=pos[0],c=pos[1],ind=r*n+c;
-            vector<int>overlap;
-            if(r-1>=0 && uf.isValid(ind-n)) overlap.push_back(ind-n);
-            if(r+1<m  && uf.isValid(ind+n)) overlap.push_back(ind+n);
-            if(c-1>=0 && uf.isValid(ind-1)) overlap.push_back(ind-1);
-            if(c+1<n  && uf.isValid(ind+1)) overlap.push_back(ind+1);
+            if(uf.isValid(ind)) {
+                ans.push_back(uf.getCount());
+                continue;//already processed
+            }
+            unordered_set<int>overlap;
+            if(r-1>=0 && uf.isValid(ind-n)) overlap.insert(uf.find(ind-n));
+            if(r+1<m  && uf.isValid(ind+n)) overlap.insert(uf.find(ind+n));
+            if(c-1>=0 && uf.isValid(ind-1)) overlap.insert(uf.find(ind-1));
+            if(c+1<n  && uf.isValid(ind+1)) overlap.insert(uf.find(ind+1));
             uf.setParent(ind);
+            uf.increaseCount(-1*overlap.size());
             for(const int p:overlap) uf.Union(ind,p);
             ans.push_back(uf.getCount());
         }
