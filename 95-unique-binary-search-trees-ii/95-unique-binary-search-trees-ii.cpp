@@ -11,14 +11,14 @@
  */
 class Solution {
 public:
-    map<pair<int,int>,vector<TreeNode*>>m;
+    unordered_map<int,vector<TreeNode*>>m;
     vector<TreeNode*> generate(int s,int e){
         if(s>e) return {NULL};
         if(s==e){
-            if(m.find({s,s})==m.end()) return m[{s,s}]={new TreeNode(s)};
-            else return m[{s,s}];
+            if(m.find(11*s)==m.end()) return m[11*s]={new TreeNode(s)};
+            else return m[11*s];
         }
-        if(m.find({s,e})!=m.end()) return m[{s,e}];
+        if(m.find(10*s+e)!=m.end()) return m[10*s+e];
         vector<TreeNode*>result;
         for(int i=s;i<e+1;i++){
             vector<TreeNode*>l=generate(s,i-1);
@@ -31,7 +31,7 @@ public:
                     result.push_back(p);
                 }
         }
-        return m[{s,e}]=result;
+        return m[10*s+e]=result;
     }
     vector<TreeNode*> generateTrees(int n) {
         return generate(1,n);
