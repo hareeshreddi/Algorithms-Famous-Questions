@@ -20,8 +20,8 @@ public:
             return root;
         }
         else{
-            if(root->left) root->left=recur(root->left,s,ans,true);
-            if(root->right) root->right=recur(root->right,s,ans,true);
+            if(root->left) recur(root->left,s,ans,true);
+            if(root->right) recur(root->right,s,ans,true);
             delete(root);
             return NULL;
         }
