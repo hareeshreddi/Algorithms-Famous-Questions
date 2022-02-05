@@ -16,11 +16,11 @@ public:
         if(root->left==NULL && root->right==NULL) return {root,root};
         pair<TreeNode*,TreeNode*>l=flat(root->left);
         pair<TreeNode*,TreeNode*>r=flat(root->right);
-        if(l.first)
-            root->right=l.first;
+        //do operations
+        if(l.first) root->right=l.first;
         root->left=NULL;
-        if(l.second)
-            l.second->right=r.first;
+        if(l.second) l.second->right=r.first;
+        //return top most & bottom most nodes
         if(r.second) return {root,r.second};
         else return {root,l.second};
     }
