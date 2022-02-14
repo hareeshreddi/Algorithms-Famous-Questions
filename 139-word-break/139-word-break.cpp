@@ -4,17 +4,14 @@ public:
         unordered_set<string>us(wordDict.begin(),wordDict.end());
         int k=s.length();
         vector<bool>dp(k,false);
-        dp[k]=true;
-        for(int i=k-1;i>=0;i--){
-            string cur="";
-            for(int j=i;j<k;j++){
-                cur+=s[j];
-                if(cur.length()>20) break;
-                if(dp[j+1] && us.find(cur)!=us.end()){
+        dp[0]=true;
+        for(int i=1;i<=k;i++)
+            for(int j=i;j>0;j--){
+                if(i-j+1>20) break;
+                if(dp[j-1] && us.find(s.substr(j-1,i-j+1))!=us.end()){
                     dp[i]=true;break;
                 }
             }
-        }
-        return dp[0];
+        return dp[k];
     }
 };
