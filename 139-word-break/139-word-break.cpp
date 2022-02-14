@@ -6,9 +6,9 @@ public:
         vector<bool>dp(k,false);
         dp[0]=true;
         for(int i=1;i<=k;i++)
-            for(int j=i;j>0;j--){
-                if(i-j+1>20) break;
-                if(dp[j-1] && us.find(s.substr(j-1,i-j+1))!=us.end()){
+            for(int j=i-1;j>=0;j--){
+                if(i-j>20) break;
+                if(dp[j] && us.find(s.substr(j,i-j))!=us.end()){
                     dp[i]=true;break;
                 }
             }
